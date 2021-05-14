@@ -1,7 +1,10 @@
 // Cargar la libreria de express
 const express = require('express');
 const path = require('path')
+const mongoose = require('mongoose');
 const homeController = require('./controllers/home.controller');
+const usuarioController = require('./controllers/usuario.controller');
+const tareaController = require('./controllers/tarea.controller');
 // Creo una aplicacion de express y 
 //la asigna a la constante app
 const app = express();
@@ -13,7 +16,11 @@ app.use(express.json());
 // usar la carpeta "public" como carpeta de  estaticos
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'pug');
-
+// Add DB configuration
+const mongoDB = 'mongodb://127.0.0.1/loquesea';
+mongoose.connect(mongoDB);
+// Get Mongoose to use the global promise library
+mongoose.Promise = global.Promise;
 
 // como responder a determinados "VERBOS-PATHS"
 
@@ -37,6 +44,18 @@ app.post('/login', function(req, res){
   //hacer una redireccion al pagina home
   res.status(204).send('');
 });
+
+app.get('/usuarios/:id',usuarioController.get);
+app.get('/usuarios',usuarioController.list);
+app.post('/usuarios',usuarioController.create);
+app.delete('/usuarios/:id',usuarioController.remove);
+app.put('/usuarios/:id',usuarioController.update);
+
+app.get('/tareas',tareaController.list);
+app.get('/tareas/:id',tareaController.get);
+app.post('/tareas',tareaController.create);
+app.put('/tareas/:id',tareaController.update);
+app.delete('/tareas/:id',tareaController.remove);
 //CREAR UN SERVIDOR WEB QUE ESCUCHE 
 // PETICIONES EN EL PUERO 80
 app.listen(80, function(){

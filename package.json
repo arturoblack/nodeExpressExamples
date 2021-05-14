@@ -4,12 +4,17 @@
   "description": "Proyecto de ejemplo de nodejs",
   "main": "server.js",
   "scripts": {
+    "start": "node server.js",
+    "db:create": "node utils/createSchema.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "@arturoblack",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "pug": "^3.0.2"
+    "mongoose": "^5.12.9",
+    "pug": "^3.0.2",
+    "sequelize": "^6.6.2",
+    "sqlite3": "^5.0.2"
   }
 }
